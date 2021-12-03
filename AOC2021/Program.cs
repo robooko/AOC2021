@@ -2,4 +2,6 @@
 
 using AOC2021.Days;
 
-Day1.Quesstion1();
+
+Console.WriteLine($"Day 1 question 1 = {Day1.CalculatelargerMeasurements(1)}");
+Console.WriteLine($"Day 1 question 2 = {Day1.CalculatelargerMeasurements(3)}");
