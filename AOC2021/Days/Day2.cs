@@ -10,20 +10,47 @@ namespace AOC2021.Days
     {
         public static int Question1()
         {
-            var allLines = File.ReadAllLines("inputs/day2.txt").Select(x => x);
-            var submarineCommands = allLines.Select(x=> new SubmarineCommand(x));
-            return submarineCommands.Where(x => x.SubmarineCommandType == SubmarineCommandType.Horizontal).Sum(x => x.Value) * submarineCommands.Where(x => x.SubmarineCommandType == SubmarineCommandType.Depth).Sum(x => x.Value);
+            return new Submarine().Calc();
+        }
+
+        public static int Question2()
+        {
+            return new Submarine().Aim();
         }
     }
 
     class Submarine
     {
-        int _aim;
+        int _aim = 0;
+        int _horizontal = 0;
+        int _depth = 0;
         readonly SubmarineCommand[] _submarineCommands;
         public Submarine()
         {
             var allLines = File.ReadAllLines("inputs/day2.txt").Select(x => x);
             _submarineCommands = allLines.Select(x => new SubmarineCommand(x)).ToArray();
+        }
+
+        public int Aim()
+        {
+            _submarineCommands.ToList().ForEach(x =>
+            {
+                if (x.SubmarineCommandType == SubmarineCommandType.Horizontal)
+                {
+                    _horizontal += x.Value;
+                    _depth += x.Value * _aim;
+                }
+                else
+                {
+                    _aim += x.Value;
+                }
+            });
+            return _horizontal * _depth;
+        }
+
+        public int Calc()
+        {
+            return _submarineCommands.Where(x => x.SubmarineCommandType == SubmarineCommandType.Horizontal).Sum(x => x.Value) * _submarineCommands.Where(x => x.SubmarineCommandType == SubmarineCommandType.Depth).Sum(x => x.Value);
         }
     }
 
