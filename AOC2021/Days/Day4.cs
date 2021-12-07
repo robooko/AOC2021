@@ -11,7 +11,6 @@ namespace AOC2021.Days
 
         public static int Question1()
         {
-
             var boards = createBoards();
             var numbers = getNumbers();
 
@@ -27,8 +26,6 @@ namespace AOC2021.Days
                     for (int i = 0; i < b.GetLength(0); i++)
                         for (int j = 0; j < b.GetLength(1); j++)
                             b[i, j] = b[i, j] == currentNumber ? 0 : b[i, j];
-
-
                 });
 
                 for (int boardIndex = 0; boardIndex < boards.Count(); boardIndex++)
@@ -45,22 +42,18 @@ namespace AOC2021.Days
                         }
                     }
 
-
                     if (lastPick != 0)
                         break;
                 }
-
 
                 if (lastPick != 0)
                     break;
             }
 
-
-
             var countBoard = boards.ElementAt(completedBoard);
             for (int i = 0; i < countBoard.GetLength(0); i++)
             {
-                result += countBoard.Row(i).ToList().Sum();
+                result += countBoard.Row(i).Sum();
             }
 
             return result * lastPick;
@@ -84,8 +77,6 @@ namespace AOC2021.Days
                     for (int i = 0; i < b.GetLength(0); i++)
                         for (int j = 0; j < b.GetLength(1); j++)
                             b[i, j] = b[i, j] == currentNumber ? 0 : b[i, j];
-
-
                 });
 
                 for (int boardIndex = 0; boardIndex < boards.Count(); boardIndex++)
@@ -103,17 +94,14 @@ namespace AOC2021.Days
                     }
                 }
 
-
                 if (completedBoards.Count() == boards.Count())
                     break;
             }
 
-
-
             var countBoard = boards.ElementAt(completedBoard);
             for (int i = 0; i < countBoard.GetLength(0); i++)
             {
-                result += countBoard.Row(i).ToList().Sum();
+                result += countBoard.Row(i).Sum(x => x);
             }
 
             return result * lastPick;
@@ -128,24 +116,19 @@ namespace AOC2021.Days
         private static List<int[,]> createBoards()
         {
             var allLines = File.ReadAllLines("inputs/day4.txt").Select(x => x);
-            var boards = new List<int[,]>();
             var batches = LinqExtensions.Chunk(allLines.Skip(1).Where(x => x != string.Empty).ToList(), 5);
-            int[] f = batches.First().First().Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ToArray();
-            batches.ToList().ForEach(x =>
+            var boards = batches.Select(x =>
             {
-                int[,] multiDimensionalArray1 = new int[5, 5];
-                x.ToList().ForEach(i =>
+                int[,] array = new int[5, 5];
+                x.ToList().ForEach(r =>
                 {
-                    var index = x.ToList().IndexOf(i);
-                    multiDimensionalArray1[index, 0] = x.ElementAt(index).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ElementAt(0);
-                    multiDimensionalArray1[index, 1] = x.ElementAt(index).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ElementAt(1);
-                    multiDimensionalArray1[index, 2] = x.ElementAt(index).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ElementAt(2);
-                    multiDimensionalArray1[index, 3] = x.ElementAt(index).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ElementAt(3);
-                    multiDimensionalArray1[index, 4] = x.ElementAt(index).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ElementAt(4);
+                    var index = x.ToList().IndexOf(r);
+                    for (int i = 0; i < 5; i++)
+                        array[index, i] = x.ElementAt(index).Split(' ', StringSplitOptions.RemoveEmptyEntries).Select(s => int.Parse(s)).ElementAt(i);
                 });
-                boards.Add(multiDimensionalArray1);
+                return array;
             });
-            return boards;
+            return boards.ToList();
         }
     }
 

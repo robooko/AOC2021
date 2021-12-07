@@ -11,5 +11,5 @@ Console.WriteLine($"Day 3 question 1 = {Day3.Question1()}");
 Console.WriteLine($"Day 3 question 2 = {Day3.Question2()}");
 Console.WriteLine($"Day 4 question 1 = {Day4.Question1()}");
 Console.WriteLine($"Day 4 question 2 = {Day4.Question2()}");
-Console.WriteLine($"Day 5 question 1 = {Day5.Question1()}");
-Console.WriteLine($"Day 5 question 2 = {Day5.Question2()}");
+Console.WriteLine($"Day 5 question 1 = {Day5.Count()}");
+Console.WriteLine($"Day 5 question 2 = {Day5.Count(true)}");
